@@ -1,0 +1,88 @@
+import express from 'express';
+import {
+  getAdminStats,
+  getAllUsers,
+  deleteUser,
+  // Enhanced User Management
+  updateUserDetails,
+  toggleBanUser,
+  changeUserRole,
+  getUserActivity,
+  // Vendor management
+  getPendingVendors,
+  acceptVendor,
+  rejectVendor,
+  // Product Moderation / Management
+  approveProduct,
+  rejectProduct,
+  getAllProductsAdmin,
+  deleteProductAdmin,
+  updateProductDetailsAdmin,
+  toggleFeatureProduct,
+  setFlashSaleProducts,
+  resetFlashSales,
+  // Enhanced Order Management
+  updateOrderStatus,
+  cancelOrder,
+  getAllOrders,
+  // New Analytics & Inventory Management
+  getAdvancedAnalytics,
+  addCropType,
+  updateCropType,
+  deleteCropType,
+  addLivestockBreed,
+  updateLivestockBreed,
+  deleteLivestockBreed
+} from '../controllers/admin.controller.js';
+import authMiddleware from '../middlewares/auth.middleware.js';
+import adminMiddleware from '../middlewares/admin.middleware.js';
+
+const router = express.Router();
+
+// All routes require authentication and admin privileges
+router.use(authMiddleware);
+router.use(adminMiddleware);
+
+// Stats & Analytics
+router.get('/stats', getAdminStats);
+router.get('/analytics', getAdvancedAnalytics);
+
+// User Management
+router.get('/users', getAllUsers);
+router.get('/user/:id/activity', getUserActivity);
+router.put('/user/:id', updateUserDetails);
+router.put('/user/:id/ban', toggleBanUser);
+router.put('/user/:id/role', changeUserRole);
+router.delete('/user/:id', deleteUser);
+
+// Vendor Management
+router.get('/vendors/pending', getPendingVendors);
+router.put('/vendors/:id/accept', acceptVendor);
+router.put('/vendors/:id/reject', rejectVendor);
+
+// Product Management
+router.get('/products', getAllProductsAdmin);
+router.put('/products/:id/approve', approveProduct);
+router.put('/products/:id/reject', rejectProduct);
+router.put('/products/:id', updateProductDetailsAdmin);
+router.put('/products/:id/feature', toggleFeatureProduct);
+router.delete('/products/:id', deleteProductAdmin);
+router.post('/flash-sales', setFlashSaleProducts);
+router.put('/flash-sales/reset', resetFlashSales);
+router.put('/flash-sales/:productId/reset', resetFlashSales);
+
+// Order Management
+router.get('/orders', getAllOrders);
+router.put('/order/:id/status', updateOrderStatus);
+router.put('/order/:id/cancel', cancelOrder);
+
+// Inventory Management (Crop Types & Breeds)
+router.post('/crop-types', addCropType);
+router.put('/crop-types/:id', updateCropType);
+router.delete('/crop-types/:id', deleteCropType);
+
+router.post('/breeds', addLivestockBreed);
+router.put('/breeds/:id', updateLivestockBreed);
+router.delete('/breeds/:id', deleteLivestockBreed);
+
+export default router;

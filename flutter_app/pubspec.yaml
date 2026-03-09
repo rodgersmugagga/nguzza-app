@@ -1,0 +1,58 @@
+name: nguzza_marketplace
+description: "Nguzza - Agriculture marketplace for Uganda built with Flutter"
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.0.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # State Management
+  riverpod: ^2.4.1
+  flutter_riverpod: ^2.4.1
+
+  # HTTP & API
+  dio: ^5.3.1
+  json_annotation: ^4.9.0
+
+  # Local Storage
+  shared_preferences: ^2.2.2
+
+  # UI Components
+  cached_network_image: ^3.3.0
+  shimmer: ^3.0.0
+  smooth_page_indicator: ^1.1.0
+  carousel_slider: ^4.2.1
+  flutter_rating_bar: ^4.0.1
+  badges: ^3.1.2
+  url_launcher: ^6.2.2
+
+  # Image Handling
+  image_picker: ^1.0.4
+
+  # Utilities
+  intl: ^0.19.0
+  logger: ^2.0.1
+
+  # UI Utilities
+  cupertino_icons: ^1.0.2
+  google_fonts: ^6.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^3.0.0
+  build_runner: ^2.4.6
+  json_serializable: ^6.7.1
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/icons/

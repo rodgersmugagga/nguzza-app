@@ -1,0 +1,35 @@
+//import mongoose
+import mongoose from "mongoose";
+
+// Define the User schema
+const userSchema = new mongoose.Schema({
+    username: { type: String, required: true, unique: true },
+    // Optional for OAuth accounts; required by the phone/password signup flow in controller validation
+    phoneNumber: { type: String, required: false, unique: true, sparse: true },
+    email: { type: String, unique: true, sparse: true },
+    password: { type: String, required: true },
+    avatar: { type: String, default: "https://res.cloudinary.com/dnj7dtnvx/image/upload/v1763294361/vecteezy_user-avatar-ui-button_13907861_j7b38y.jpg" },
+    role: { type: String, enum: ['user', 'seller', 'admin'], default: 'user' },
+    isSeller: { type: Boolean, default: false },
+    vendorProfile: {
+        businessName: { type: String, trim: true },
+        businessDescription: { type: String, trim: true },
+        businessAddress: { type: String, trim: true },
+        businessLogo: { type: String },
+        taxId: { type: String },
+        verificationStatus: {
+            type: String,
+            enum: ['none', 'pending', 'verified', 'rejected'],
+            default: 'none'
+        },
+        rejectionReason: { type: String, trim: true }
+    },
+    isAdmin: { type: Boolean, default: false },
+    isBanned: { type: Boolean, default: false },
+    googleId: { type: String, unique: true, sparse: true },
+}, { timestamps: true });
+
+// Create and export the User model
+const User = mongoose.model('User', userSchema);
+
+export default User;

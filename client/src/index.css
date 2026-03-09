@@ -1,0 +1,181 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Green & Honey Theme (Premium Agricultural Aesthetic) */
+  --color-primary: hsl(158 64% 39%);
+  /* Emerald 600 */
+  --color-primary-dark: hsl(158 64% 30%);
+  --color-primary-foreground: hsl(0 0% 100%);
+  --color-secondary: hsl(150 30% 96%);
+  /* Light Sage */
+  --color-bg: hsl(40 20% 99%);
+  /* Warm cream */
+  --color-surface: hsl(0 0% 100%);
+  --color-accent: hsl(38 96% 51%);
+  /* Honey Amber */
+  --color-accent-soft: hsl(38 96% 51% / 0.12);
+  --color-text-primary: hsl(160 40% 10%);
+  --color-text-muted: hsl(160 10% 45%);
+  --color-border: hsl(160 15% 90%);
+  --color-success: hsl(150 64% 39%);
+  --color-warning: hsl(38 92% 50%);
+  --color-error: hsl(350 80% 50%);
+
+  /* Spacing & Scaling */
+  --header-height: 64px;
+  --header-mobile-height: 56px;
+  --bottom-nav-height: 64px;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background: var(--color-bg);
+    color: var(--color-text-primary);
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    @apply antialiased;
+  }
+
+  input,
+  button,
+  textarea,
+  select {
+    @apply focus:outline-none;
+  }
+}
+
+@layer components {
+  /* Touch-optimized Containers */
+  .container-responsive {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Glassmorphism Classes */
+  .glass {
+    @apply bg-white/70 backdrop-blur-md border border-white/20;
+  }
+
+  .glass-dark {
+    @apply bg-black/40 backdrop-blur-md border border-white/10;
+  }
+
+  /* Premium Buttons */
+  .btn-base {
+    @apply inline-flex items-center justify-center rounded-xl font-bold transition-all active:scale-95 disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .btn-primary {
+    @apply btn-base bg-emerald-600 text-white hover:bg-emerald-700 shadow-lg shadow-emerald-600/20 px-6 py-3;
+  }
+
+  .btn-secondary {
+    @apply btn-base bg-emerald-50 text-emerald-700 hover:bg-emerald-100 px-6 py-3;
+  }
+
+  .btn-accent {
+    @apply btn-base bg-amber-400 text-emerald-900 hover:bg-amber-500 shadow-lg shadow-amber-400/20 px-6 py-3;
+  }
+
+  .btn-ghost {
+    @apply btn-base hover:bg-gray-100 text-gray-700 px-4 py-2;
+  }
+
+  /* Responsive Spacing Utilities */
+  .pt-safe { padding-top: env(safe-area-inset-top); }
+  .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+}
+
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Custom Shadow for Premium Cards */
+  .shadow-premium {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.03);
+  }
+
+  .shadow-premium-hover {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+  }
+
+  /* Focus ring utility */
+  .focus-ring {
+    @apply focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all;
+  }
+
+  /* Border utility */
+  .border-ui {
+    border-color: var(--color-border);
+  }
+}
+
+/* Hero & Animation Utilities */
+.hero-gradient {
+  background: radial-gradient(circle at 0% 0%, hsla(158, 64%, 39%, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 100% 100%, hsla(38, 96%, 51%, 0.1) 0%, transparent 50%);
+}
+
+.animate-in {
+  animation: animate-in 0.3s ease-out;
+}
+
+@keyframes animate-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Mobile Category Navigation Mask */
+.mask-fade-right {
+  mask-image: linear-gradient(to right, black 80%, transparent 100%);
+}
+
+.auto-scroll-track {
+  width: max-content;
+  animation: auto-scroll-categories 28s linear infinite;
+}
+
+.auto-scroll-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes auto-scroll-categories {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* Micro-animations */
+.hover-scale {
+  @apply transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98];
+}
+
+/* Global Navigation Variables */
+.header-offset {
+  padding-top: var(--header-height);
+}
+
+@media (max-width: 640px) {
+  .header-offset {
+    padding-top: var(--header-mobile-height);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auto-scroll-track {
+    animation: none;
+  }
+}
