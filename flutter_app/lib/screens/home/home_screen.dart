@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../constants/app_colors.dart';
 import '../../providers/product_provider.dart';
@@ -47,8 +46,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   ];
 
   final List<String> _categories = [
-    'H Harvest', 'Services', 'Crops', 'Livestock',
-    'Farm Inputs', 'Machinery', 'Fresh Harvest',
+    'H Harvest',
+    'Services',
+    'Crops',
+    'Livestock',
+    'Farm Inputs',
+    'Machinery',
+    'Fresh Harvest',
   ];
 
   @override
@@ -103,7 +107,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   const Expanded(
                     child: Text(
                       'Search...',
-                      style: TextStyle(color: AppColors.textLight, fontSize: 14),
+                      style:
+                          TextStyle(color: AppColors.textLight, fontSize: 14),
                     ),
                   ),
                   Container(
@@ -116,7 +121,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         bottomRight: Radius.circular(25),
                       ),
                     ),
-                    child: const Icon(Icons.search, color: Colors.white, size: 20),
+                    child:
+                        const Icon(Icons.search, color: Colors.white, size: 20),
                   ),
                 ],
               ),
@@ -144,7 +150,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               Expanded(
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                   child: Row(
                     children: _categories.map((cat) {
                       return Padding(
@@ -158,13 +165,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           ),
                           style: TextButton.styleFrom(
                             foregroundColor: Colors.white70,
-                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 4),
                             minimumSize: Size.zero,
                             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           ),
                           child: Text(
                             cat.toUpperCase(),
-                            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, letterSpacing: 0.5),
+                            style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 0.5),
                           ),
                         ),
                       );
@@ -175,8 +186,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               GestureDetector(
                 onTap: () => Navigator.pushNamed(context, '/sell'),
                 child: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
                   decoration: BoxDecoration(
                     color: AppColors.amber,
                     borderRadius: BorderRadius.circular(6),
@@ -210,87 +223,84 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             flex: 3,
             child: Column(
               children: [
-                CarouselSlider.builder(
-                  itemCount: _heroBanners.length,
-                  options: CarouselOptions(
-                    height: 200,
-                    viewportFraction: 1.0,
-                    onPageChanged: (i, _) =>
+                SizedBox(
+                  height: 200,
+                  child: PageView.builder(
+                    onPageChanged: (i) =>
                         setState(() => _currentBannerIndex = i),
-                    autoPlay: true,
-                    autoPlayInterval: const Duration(seconds: 4),
-                  ),
-                  itemBuilder: (context, i, _) {
-                    final banner = _heroBanners[i];
-                    return GestureDetector(
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => ProductListScreen(
-                              category: banner['category'] as String),
+                    itemCount: _heroBanners.length,
+                    itemBuilder: (context, i) {
+                      final banner = _heroBanners[i];
+                      return GestureDetector(
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => ProductListScreen(
+                                category: banner['category'] as String),
+                          ),
                         ),
-                      ),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: banner['color'] as Color,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        padding: const EdgeInsets.all(24),
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              right: -20,
-                              bottom: -20,
-                              child: Icon(
-                                banner['icon'] as IconData,
-                                size: 140,
-                                color: Colors.white.withAlpha(30),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: banner['color'] as Color,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          padding: const EdgeInsets.all(24),
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                right: -20,
+                                bottom: -20,
+                                child: Icon(
+                                  banner['icon'] as IconData,
+                                  size: 140,
+                                  color: Colors.white.withAlpha(30),
+                                ),
                               ),
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  banner['title'] as String,
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w800,
-                                  ),
-                                ),
-                                const SizedBox(height: 6),
-                                Text(
-                                  banner['subtitle'] as String,
-                                  style: const TextStyle(
-                                    color: Colors.white70,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                                const SizedBox(height: 16),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16, vertical: 8),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: Text(
-                                    'Explore',
-                                    style: TextStyle(
-                                      color: banner['color'] as Color,
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 13,
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    banner['title'] as String,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.w800,
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ],
+                                  const SizedBox(height: 6),
+                                  Text(
+                                    banner['subtitle'] as String,
+                                    style: const TextStyle(
+                                      color: Colors.white70,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 16),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16, vertical: 8),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Text(
+                                      'Explore',
+                                      style: TextStyle(
+                                        color: banner['color'] as Color,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 13,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
                 const SizedBox(height: 8),
                 AnimatedSmoothIndicator(
@@ -373,7 +383,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       productsProvider(ProductFilter(limit: 10)),
     );
 
-    final sampleEndTime = DateTime.now().add(const Duration(hours: 23, minutes: 59));
+    final sampleEndTime =
+        DateTime.now().add(const Duration(hours: 23, minutes: 59));
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(12, 16, 12, 0),
@@ -592,11 +603,26 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       unselectedItemColor: AppColors.textLight,
       type: BottomNavigationBarType.fixed,
       items: const [
-        BottomNavigationBarItem(icon: Icon(Icons.home_outlined), activeIcon: Icon(Icons.home), label: 'Home'),
-        BottomNavigationBarItem(icon: Icon(Icons.grid_view_outlined), activeIcon: Icon(Icons.grid_view), label: 'Categories'),
-        BottomNavigationBarItem(icon: Icon(Icons.add_circle_outline), activeIcon: Icon(Icons.add_circle), label: 'Sell'),
-        BottomNavigationBarItem(icon: Icon(Icons.receipt_long_outlined), activeIcon: Icon(Icons.receipt_long), label: 'Orders'),
-        BottomNavigationBarItem(icon: Icon(Icons.person_outline), activeIcon: Icon(Icons.person), label: 'Profile'),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined),
+            activeIcon: Icon(Icons.home),
+            label: 'Home'),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.grid_view_outlined),
+            activeIcon: Icon(Icons.grid_view),
+            label: 'Categories'),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.add_circle_outline),
+            activeIcon: Icon(Icons.add_circle),
+            label: 'Sell'),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.receipt_long_outlined),
+            activeIcon: Icon(Icons.receipt_long),
+            label: 'Orders'),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline),
+            activeIcon: Icon(Icons.person),
+            label: 'Profile'),
       ],
     );
   }
@@ -634,7 +660,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             }),
             _drawerItem(Icons.grid_view_outlined, 'Categories', () {
               Navigator.pop(context);
-              Navigator.push(context, MaterialPageRoute(builder: (_) => const ProductListScreen()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (_) => const ProductListScreen()));
             }),
             _drawerItem(Icons.person_outline, 'Profile', () {
               Navigator.pop(context);

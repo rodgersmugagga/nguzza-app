@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../constants/app_colors.dart';
 import '../models/product.model.dart';
 import '../utils/formatters.dart';
@@ -103,8 +102,8 @@ class ProductCard extends StatelessWidget {
                   bottom: 8,
                   left: 8,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 8, vertical: 4),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
                       color: Colors.black.withAlpha(180),
                       borderRadius: BorderRadius.circular(6),
@@ -175,15 +174,17 @@ class ProductCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 4),
-                  RatingBarIndicator(
-                    rating: product.rating,
-                    itemBuilder: (context, _) => const Icon(
-                      Icons.star,
-                      color: AppColors.amber,
+                  Row(
+                    children: List.generate(
+                      5,
+                      (i) => Icon(
+                        Icons.star,
+                        size: 14,
+                        color: i < product.rating.toInt()
+                            ? AppColors.amber
+                            : AppColors.surfaceGray,
+                      ),
                     ),
-                    itemCount: 5,
-                    itemSize: 14,
-                    unratedColor: AppColors.surfaceGray,
                   ),
                   const SizedBox(height: 4),
                   if (product.district != null)

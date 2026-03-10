@@ -1,11 +1,33 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/user.model.dart';
 import '../services/api/api_client.dart';
+import '../services/auth_service.dart';
 
 class AuthNotifier extends StateNotifier<AuthState> {
   final ApiClient _apiClient;
+  final AuthService _authService;
 
-  AuthNotifier(this._apiClient) : super(const AuthState());
+  AuthNotifier(this._apiClient, this._authService) : super(const AuthState()) {
+    _init();
+  }
+
+  Future<void> _init() async {
+    final token = await _authService.getToken();
+    if (token != null) {
+      state = state.copyWith(token: token, isLoading: true);
+      try {
+        final user = await _apiClient.getCurrentUser();
+        state = state.copyWith(
+          user: user,
+          isLoading: false,
+          isAuthenticated: true,
+        );
+      } catch (e) {
+        await _authService.clearToken();
+        state = state.copyWith(isLoading: false, isAuthenticated: false);
+      }
+    }
+  }
 
   Future<void> login(String email, String password) async {
     state = state.copyWith(isLoading: true, error: null);
@@ -17,6 +39,9 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
       final user = User.fromJson(response['user']);
       final token = response['token'];
+
+      await _authService.saveToken(token);
+      await _authService.saveUserId(user.id);
 
       state = state.copyWith(
         user: user,
@@ -45,6 +70,9 @@ class AuthNotifier extends StateNotifier<AuthState> {
       final user = User.fromJson(response['user']);
       final token = response['token'];
 
+      await _authService.saveToken(token);
+      await _authService.saveUserId(user.id);
+
       state = state.copyWith(
         user: user,
         token: token,
@@ -63,13 +91,9 @@ class AuthNotifier extends StateNotifier<AuthState> {
     state = state.copyWith(isLoading: true);
     try {
       await _apiClient.logout();
-      state = const AuthState();
-    } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        error: e.toString(),
-      );
-    }
+    } catch (_) {}
+    await _authService.clearToken();
+    state = const AuthState();
   }
 
   Future<void> getCurrentUser() async {
@@ -128,5 +152,6 @@ class AuthState {
 
 final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
   final apiClient = ref.watch(apiClientProvider);
-  return AuthNotifier(apiClient);
+  final authService = ref.watch(authServiceProvider);
+  return AuthNotifier(apiClient, authService);
 });

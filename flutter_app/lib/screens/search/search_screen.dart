@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import '../../constants/app_colors.dart';
 import '../../providers/product_provider.dart';
 import '../../models/product.model.dart';
+import '../../widgets/product_card.dart';
 import '../product/product_details_screen.dart';
 
 class SearchScreen extends ConsumerStatefulWidget {
@@ -72,8 +72,11 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                         hintStyle:
                             TextStyle(color: AppColors.textLight, fontSize: 14),
                         border: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        focusedBorder: InputBorder.none,
                         contentPadding: EdgeInsets.zero,
                         isDense: true,
+                        filled: false,
                       ),
                     ),
                   ),
@@ -240,7 +243,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                 ),
                 itemCount: products.length,
                 itemBuilder: (context, i) {
-                  return GestureDetector(
+                  return ProductCard(
+                    product: products[i],
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -249,7 +253,6 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                         ),
                       ),
                     ),
-                    child: _buildProductCard(products[i]),
                   );
                 },
               ),
@@ -257,75 +260,6 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           ],
         );
       },
-    );
-  }
-
-  Widget _buildProductCard(Product product) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withAlpha(10),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipRRect(
-            borderRadius:
-                const BorderRadius.vertical(top: Radius.circular(12)),
-            child: AspectRatio(
-              aspectRatio: 1,
-              child: product.images.isNotEmpty
-                  ? CachedNetworkImage(
-                      imageUrl: product.images.first,
-                      fit: BoxFit.cover,
-                      errorWidget: (_, __, ___) => Container(
-                        color: AppColors.surfaceGray,
-                        child: const Icon(Icons.agriculture,
-                            color: AppColors.textLight, size: 40),
-                      ),
-                    )
-                  : Container(
-                      color: AppColors.surfaceGray,
-                      child: const Icon(Icons.agriculture,
-                          color: AppColors.textLight, size: 40),
-                    ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  product.name,
-                  style: const TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  'UGX ${product.displayPrice.toStringAsFixed(0)}',
-                  style: const TextStyle(
-                    color: AppColors.primaryGreen,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 13,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

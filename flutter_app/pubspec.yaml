@@ -18,6 +18,7 @@ dependencies:
   # HTTP & API
   dio: ^5.3.1
   json_annotation: ^4.9.0
+  json_serializable: ^6.7.1
 
   # Local Storage
   shared_preferences: ^2.2.2
@@ -26,9 +27,6 @@ dependencies:
   cached_network_image: ^3.3.0
   shimmer: ^3.0.0
   smooth_page_indicator: ^1.1.0
-  carousel_slider: ^4.2.1
-  flutter_rating_bar: ^4.0.1
-  badges: ^3.1.2
   url_launcher: ^6.2.2
 
   # Image Handling
@@ -48,7 +46,6 @@ dev_dependencies:
 
   flutter_lints: ^3.0.0
   build_runner: ^2.4.6
-  json_serializable: ^6.7.1
 
 flutter:
   uses-material-design: true

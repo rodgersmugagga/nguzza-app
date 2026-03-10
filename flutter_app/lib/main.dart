@@ -3,12 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'constants/app_colors.dart';
 import 'screens/splash/splash_screen.dart';
-import 'screens/home/home_screen.dart';
+import 'screens/home/home_screen_v2.dart' as home;
 import 'screens/auth/login_screen.dart';
 import 'screens/auth/signup_screen.dart';
 import 'screens/cart/cart_screen.dart';
+import 'screens/cart/checkout_screen.dart';
 import 'screens/profile/profile_screen.dart';
 import 'screens/product/product_list_screen.dart';
+import 'screens/order/order_list_screen.dart';
 
 void main() {
   runApp(
@@ -108,15 +110,15 @@ class NguzzaApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const SplashScreen(),
-        '/home': (context) => const HomeScreen(),
+        '/home': (context) => const home.HomeScreen(),
         '/login': (context) => const LoginScreen(),
         '/signup': (context) => const SignupScreen(),
         '/cart': (context) => const CartScreen(),
         '/profile': (context) => const ProfileScreen(),
         '/categories': (context) => const ProductListScreen(),
+        '/orders': (context) => const OrderListScreen(),
         '/sell': (context) => const _PlaceholderScreen(title: 'Sell'),
-        '/orders': (context) => const _PlaceholderScreen(title: 'Orders'),
-        '/checkout': (context) => const _PlaceholderScreen(title: 'Checkout'),
+        '/checkout': (context) => const CheckoutScreen(),
       },
     );
   }
